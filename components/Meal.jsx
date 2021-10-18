@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Button from '@mui/material/Button';
-import Recipe from '../coponents/Recipe';
+import Recipe from './Recipe';
 
 const Meal = () => {
     return (
