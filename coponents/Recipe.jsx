@@ -14,7 +14,6 @@ const Recipe = () => {
             label="Recipe"
             minRows={19}
             multiline
-            outlined
             required
             value={recipe}
             onChange={e => setRecipe(e.target.value)} />
