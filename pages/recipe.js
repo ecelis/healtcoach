@@ -1,7 +1,5 @@
 import { useState, useEfect } from 'react';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import styles from '../styles/Home.module.css'
 import Day from '../components/Day';
 import Layout from '../components/Layout';
 import { useSession, signIn, signOut, getSession } from 'next-auth/react';
@@ -20,11 +18,9 @@ export default function Recipe() {
   
   return (
     <Layout>
-      <Container maxWidth="sm">
-        <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
-          <Day /> 
-        </Box>
-      </Container>
+      <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
+        <Day /> 
+      </Box>
     </Layout>
   )
 }
