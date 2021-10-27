@@ -48,7 +48,7 @@ function AppHeader({ session, status }) {
                 {
                     status === 'authenticated' ?
                     <p>signed in as {session.user.email}</p> :
-                    <p><a href="/api/auth/signin">Sigin</a></p>
+                    <p><a href="/api/auth/signin">Sigin</a></p>                    
                 }
             </Toolbar>
         </AppBar>

@@ -6,11 +6,11 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Button from '@mui/material/Button';
 import Meal from './Meal';
 
-const Day = () => {
+const Day = (props) => {
     return (
         <React.Fragment>
             <h2>Day</h2>
-            <Meal />
+            <Meal session={props.session}/>
         </React.Fragment>
     );
 }

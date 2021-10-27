@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Button from '@mui/material/Button';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
-const Recipe = () => {
-  const [recipe, setRecipe] = useState('');
+const handleSave = (payload) => {
+  axios.post('http://localhost:3000/api/recipe', payload)
+    .then(res => console.log(res));
+}
+
+const Recipe = (props) => {
+  const [text, setText] = useState('');
+  const { data: session, status} = useSession();
   
   return (
     <React.Fragment>
@@ -13,13 +21,13 @@ const Recipe = () => {
             color="secondary"
             label="Recipe"
             minRows={19}
-            multiline
             required
-            value={recipe}
-            onChange={e => setRecipe(e.target.value)} />
+            value={text}
+            onChange={e => setText(e.target.value)} />
             <Button variant="contained"
               onClick={() => {
-                console.log(recipe);
+                const userId = session.user.id;
+                handleSave({ text, userId });
               }}
             >
               Save
