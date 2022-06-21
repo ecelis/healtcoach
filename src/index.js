@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import App from './App';
+import Calendar from './components/Calendar';
+import Recipe from './components/Recipe';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,11 +16,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter><Routes>
       <Route path="/" element={<App />}>
+        <Route path='calendar' element={<Calendar />} />
+        <Route path="recipe" element={<Recipe />} />
         <Route
         path="*"
-        element={
-          <main><h1>Nuthin heere!</h1></main>
-        } />
+        element={<Calendar />} />
       </Route>
     </Routes></BrowserRouter>
   </React.StrictMode>

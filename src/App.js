@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import SignIn from './components/Signin';
-import Calendar from './components/Calendar';
 import axios from 'axios';
 
 function App() {
@@ -49,7 +48,7 @@ function App() {
       user={user}
       setUser={setUser} />
       <div className='wrapper'>
-        { user ? <Calendar user={user} /> : <SignIn /> }
+        { user ? <Outlet /> : <SignIn /> }
       </div>
     </div>
   );
