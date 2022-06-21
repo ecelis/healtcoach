@@ -25,7 +25,6 @@ function App() {
           sessionStorage.clear();
         });
     } else {  // TODO validate sessionStorage token expiration
-      console.log('no hay hay token en searchString')
       const prevToken = sessionStorage.getItem('token');
       if(prevToken) {
         axios.get('/login/callback?token=' + prevToken, {}, {
@@ -35,7 +34,7 @@ function App() {
               const user = res.data;
               setUser(user);
               sessionStorage.setItem('user', JSON.stringify(user));
-              sessionStorage.setItem('token', token);
+              sessionStorage.setItem('token', prevToken);
           })
           .catch(error => {
             sessionStorage.clear();  // clean up
