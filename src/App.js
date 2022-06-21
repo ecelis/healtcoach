@@ -16,11 +16,31 @@ function App() {
         headers: { 'Content-Type': 'application/json'}
       })
         .then(res =>{
-          setUser(res.data);
+            const user = res.data;
+            setUser(user);
+            sessionStorage.setItem('user', JSON.stringify(user));
+            sessionStorage.setItem('token', token);
         })
         .catch(error => {
-          console.log('hubo pedo', error)
+          sessionStorage.clear();
         });
+    } else {  // TODO validate sessionStorage token expiration
+      console.log('no hay hay token en searchString')
+      const prevToken = sessionStorage.getItem('token');
+      if(prevToken) {
+        axios.get('/login/callback?token=' + prevToken, {}, {
+          headers: { 'Content-Type': 'application/json'}
+        })
+          .then(res =>{
+              const user = res.data;
+              setUser(user);
+              sessionStorage.setItem('user', JSON.stringify(user));
+              sessionStorage.setItem('token', token);
+          })
+          .catch(error => {
+            sessionStorage.clear();  // clean up
+          });
+      }
     }
   }, []);
 
