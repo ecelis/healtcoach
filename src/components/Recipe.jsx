@@ -5,7 +5,7 @@ export default function Recipe(props) {
     const [title, setTitle] = useState('');
     const handler = (e) => {
         e.preventDefault();
-        console.log(title)
+        console.log('I am the handler', title)
     }
     return (
         <div>
@@ -16,7 +16,7 @@ export default function Recipe(props) {
                 name="title"
                 onChange={e => (setTitle(e.target.value))}
                 />
-                <StyledButton type="submit">Save</StyledButton>
+                <StyledButton type="button" text="Save" primary />
             </form>
         </div>
     );
