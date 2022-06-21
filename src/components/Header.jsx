@@ -10,12 +10,28 @@ function Badge(props) {
   );
 }
 
+function Navigation(props) {
+  const items = ['Recipes']
+  return (
+    <div><ul>
+      {
+        items.map(i => {return (<li key={i}><Link to='/recipe'>{i}</Link></li>)})
+      }
+    </ul></div>
+  );
+}
+
 export default function Header(props) {
     const { user } = props;
     return (
       <div className="header">
         <h1>Web Health Coach</h1>
-        { user ? <Badge displayName={user.displayName} setUser={props.setUser} /> : null }
+        { user ?
+        <div>
+          <Badge displayName={user.displayName} setUser={props.setUser} />
+          <Navigation />
+        </div>
+        : null }
       </div>
     );
   }
