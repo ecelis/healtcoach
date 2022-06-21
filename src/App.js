@@ -46,7 +46,8 @@ function App() {
   return (
     <div className="container">
       <Header
-      user={user} />
+      user={user}
+      setUser={setUser} />
       <div className='wrapper'>
         { user ? <Calendar user={user} /> : <SignIn /> }
       </div>
