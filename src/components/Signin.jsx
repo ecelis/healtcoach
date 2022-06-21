@@ -7,7 +7,7 @@ const SigninForm = (props) => {
 
   const sendMagicLink = e => {
     e.preventDefault();
-    axios.post('/login/email',
+    axios.post(`${process.env.REACT_APP_APIURL}/login/email`,
     {destination: email, displayName: displayName},
       {headers: {'Content-Type': 'application/json'}})
     .then(res => {

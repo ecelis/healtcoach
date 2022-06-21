@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     const token = searchParams.get('token');
     if (token) {
-      axios.get('/login/callback?token=' + token, {}, {
+      axios.get(`${process.env.REACT_APP_APIURL}/login/callback?token=${token}`, {}, {
         headers: { 'Content-Type': 'application/json'}
       })
         .then(res =>{
@@ -26,7 +26,7 @@ function App() {
     } else {  // TODO validate sessionStorage token expiration
       const prevToken = sessionStorage.getItem('token');
       if(prevToken) {
-        axios.get('/login/callback?token=' + prevToken, {}, {
+        axios.get(`${process.env.REACT_APP_APIURL}/login/callback?token=${token}`, {}, {
           headers: { 'Content-Type': 'application/json'}
         })
           .then(res =>{
