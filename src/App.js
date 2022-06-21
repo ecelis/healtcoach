@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
-import Signin from './components/Signin';
+import SignIn from './components/Signin';
 import Calendar from './components/Calendar';
 import axios from 'axios';
 
@@ -13,7 +13,7 @@ function App() {
       <Header
       user={user} />
       <div className='wrapper'>
-        { user ? <Calendar user={user} /> : <Signin /> }
+        { user ? <Calendar user={user} /> : <SignIn /> }
       </div>
     </div>
   );
