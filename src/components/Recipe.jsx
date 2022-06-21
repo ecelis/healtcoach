@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import StyledButton from './Button';
 
 export default function Recipe(props) {
     const [title, setTitle] = useState('');
-    const handler = () => {
+    const handler = (e) => {
+        e.preventDefault();
         console.log(title)
     }
     return (
@@ -14,6 +16,7 @@ export default function Recipe(props) {
                 name="title"
                 onChange={e => (setTitle(e.target.value))}
                 />
+                <StyledButton type="submit">Save</StyledButton>
             </form>
         </div>
     );
