@@ -9,7 +9,7 @@ on:
     branches:
       - main
 env:
-  REACT_APP_APIURL="https://whcapi.azurewebsites.net"
+  - REACT_APP_APIURL="https://whcapi.azurewebsites.net"
 
 jobs:
   build_and_deploy_job:
