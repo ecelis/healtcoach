@@ -7,7 +7,7 @@ import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   useEffect(() => {
     const token = searchParams.get('token');
     if (token) {

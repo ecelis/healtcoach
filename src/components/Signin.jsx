@@ -47,7 +47,7 @@ const EmailSent = (props) => {
 
 export default function SignIn(props) {
   const [sent, setSent] = useState(false);
-  const [destination, setDetination] = useState('');
+  const [destination] = useState('');
 
   return (
     <div>
