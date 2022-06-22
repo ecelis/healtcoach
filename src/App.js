@@ -7,7 +7,8 @@ import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [searchParams] = useSearchParams();
+  const [searchParams,setSearchParms] = useSearchParams();  // eslint-disable-line
+  /* eslint-disable no-debugger, no-console */
   useEffect(() => {
     const token = searchParams.get('token');
     if (token) {
@@ -41,6 +42,7 @@ function App() {
       }
     }
   }, []);
+  /* eslint-disable no-debugger, no-console */
 
   return (
     <div className="container">
