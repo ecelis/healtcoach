@@ -25,7 +25,7 @@ export default function Header(props) {
     const { user } = props;
     return (
       <div className="header">
-        <h1>Web Health Coach</h1>
+        <h1><Link to={'/'}>Web Health Coach</Link></h1>
         { user ?
         <div>
           <Badge displayName={user.displayName} setUser={props.setUser} />

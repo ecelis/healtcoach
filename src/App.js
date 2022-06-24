@@ -9,7 +9,7 @@ function App() {
   const [user, setUser] = useState(null);
   // eslint-disable-next-line
   const [params,setSearchParms] = useSearchParams();
-  // setSearchParms(params);
+  
   useEffect(() => {
     function checkStatus() {
       const token = params.get('token');
@@ -20,26 +20,26 @@ function App() {
           .then(res =>{
               const user = res.data;
               setUser(user);
-              sessionStorage.setItem('user', JSON.stringify(user));
-              sessionStorage.setItem('token', token);
+              localStorage.setItem('user', JSON.stringify(user));
+              localStorage.setItem('token', token);
           })
           .catch(error => {
-            sessionStorage.clear();
+            localStorage.clear();
           });
-      } else {  // TODO validate sessionStorage token expiration
-        const prevToken = sessionStorage.getItem('token');
+      } else {  // TODO validate localStorage token expiration
+        const prevToken = localStorage.getItem('token');
         if(prevToken) {
-          axios.get(`${process.env.REACT_APP_APIURL}/login/callback?token=${token}`, {}, {
+          axios.get(`${process.env.REACT_APP_APIURL}/login/callback?token=${prevToken}`, {}, {
             headers: { 'Content-Type': 'application/json'}
           })
             .then(res =>{
                 const user = res.data;
                 setUser(user);
-                sessionStorage.setItem('user', JSON.stringify(user));
-                sessionStorage.setItem('token', prevToken);
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('token', prevToken);
             })
             .catch(error => {
-              sessionStorage.clear();  // clean up
+              localStorage.clear();  // clean up
             });
         }
       }
