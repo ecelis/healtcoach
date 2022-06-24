@@ -11,7 +11,6 @@ const SigninForm = (props) => {
     {destination: email, displayName: displayName},
       {headers: {'Content-Type': 'application/json'}})
     .then(res => {
-      console.log(res);
       props.setSent(true);
     })
     .catch(error => {
