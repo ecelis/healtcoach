@@ -1,27 +1,37 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { apiUrlBuilder, axiosOpts } from './util';
 import StyledButton from './Button';
 
 function CategoryOption(props) {
-    return (<option key={`cat${props.id}`} id={`cat${props.id}`} value={props.id}>
+    return (
+        <option key={`category${props.categoryId}`}
+            value={props.categoryId}>
             {props.description_en}
-        </option>);
+        </option>
+    );
+}
+
+function IngredientOption(props) {
+    return (
+        <option key={`ingredient${props.ingredientId}`}
+            value={props.ingredientId}>
+            {props.description_en}
+        </option>
+    );
 }
 
 export default function Recipe(props) {
-    const [title, setTitle] = useState('');
-    const [instructions, setInstructions] = useState('');
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
     const [recipe, setRecipe] = useState({
-        title: null, ingredients: [], instructions: null
+        title: '', ingredients: [], categories: [], instructions: ''
     });
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_APIURL}/category`,
-            {}, {
-            headers: { 'Content-Type': 'application/json'}
-        })
+    useEffect(() => {  // GET categories
+        axios.get(apiUrlBuilder('category'),
+            {}, axiosOpts
+        )
         .then(res => {
             const {data} = res;
             setCategories(data);
@@ -29,40 +39,75 @@ export default function Recipe(props) {
         .catch(error => { error.toString();  /* TODO handle errors properly */ });
     }, []);
 
-    const handler = (e) => {
+    useEffect(() => {  // GET ingredients
+        axios.get(apiUrlBuilder('ingredient'),
+            {}, axiosOpts
+        )
+        .then(res => {
+            const {data} = res;
+            setIngredients(data);
+        })
+        .catch(error => { error.toString();  /* TODO handle errors properly */ });
+    }, []);
+
+    const submitHandler = (e) => {
         e.preventDefault();
-        console.log('I am the handler', title)
+        console.log('I am the handler', recipe)
     }
 
     const selectHandler = (e) => {
-        console.log(e.target)
+        let arr = [];
+        let obj;
+        switch (e.target.id) {
+            case 'categories':
+                arr = [...new Set([...recipe.categories,
+                    parseInt(e.target.value)])];
+                    obj = {...recipe, ...{categories: arr}}
+                    setRecipe(obj);
+                break;
+            case 'ingredients':
+                arr = [...new Set([...recipe.ingredients,
+                    parseInt(e.target.value)])];
+                    obj = {...recipe, ...{ingredients: arr}}
+                    setRecipe(obj);
+                break;
+            default:
+                setRecipe(recipe);
+        }
     }
 
     return (
         <div>
             <h1>Recipe</h1>
-            <form onSubmit={handler}>
+            <form onSubmit={submitHandler}>
                 <div>
                     <label htmlFor="title">Title</label>
                     <input type="text"
-                    value={title}
+                    value={recipe.title}
                     id="title"
                     name="title"
-                    onChange={e => (setTitle(e.target.value))}
+                    onChange={e => {
+                        const obj = {
+                            ...recipe,
+                            ...{title: e.target.value}
+                        }
+                        setRecipe(obj)
+                    }}
                     />
                 </div>
                 <div>
                     <select id="categories"
-                    multiple={false}
+                    multiple={true}
                     name="categories"
-                    value={categories}
-                    onChange={e => {selectHandler(e)}}
+                    value={recipe.categories}
+                    onChange={selectHandler}
                     >
-                        <option key="catEmpty">-- Categories --</option>
                         {
                             categories.map(category => {
-                                return (<CategoryOption
-                                    id={category.id}
+                                return (
+                                    <CategoryOption
+                                    key={category.id}
+                                    categoryId={category.id}
                                     description_en={category.description_en}
                                 />)
                             })
@@ -71,25 +116,39 @@ export default function Recipe(props) {
                 </div>
                 <div>
                     <select id="ingredients"
+                    multiple={true}
                     name="ingredients"
-                    value={ingredients}
-                    onChange={e => {setIngredients(e.target.value)}}
+                    value={recipe.ingredients}
+                    onChange={selectHandler}
                     >
-                        <option>-- Ingredients --</option>
                         {
-
+                            ingredients.map(ingredient => {
+                                return (
+                                    <IngredientOption
+                                    key={`ingredient${ingredient.id}`}
+                                    ingredientId={ingredient.id}
+                                    value={ingredient.id}
+                                    description_en={ingredient.description_en} />
+                                )
+                            })
                         }
                     </select>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions</label>
                     <textarea
-                    cols="30"
+                    cols="40"
                     rows="24"
-                    value={instructions}
+                    value={recipe.instructions}
                     id="instructions"
                     name="instructions"
-                    onChange={e => {setInstructions(e.target.value)}}></textarea>
+                    onChange={e => {
+                        const obj = {
+                            ...recipe,
+                            ...{instructions: e.target.value}
+                        }
+                        setRecipe(obj)
+                    }}></textarea>
                 </div>
                 <div>
                     <StyledButton type="button" text="Save" primary />
