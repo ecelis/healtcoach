@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import StyledButton from './Button';
 
 function CategoryOption(props) {
-    return (<option id={`cat${props.id}`} value={props.id}>
+    return (<option key={`cat${props.id}`} id={`cat${props.id}`} value={props.id}>
             {props.description_en}
         </option>);
 }
@@ -13,6 +13,9 @@ export default function Recipe(props) {
     const [instructions, setInstructions] = useState('');
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [recipe, setRecipe] = useState({
+        title: null, ingredients: [], instructions: null
+    });
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_APIURL}/category`,
@@ -30,6 +33,11 @@ export default function Recipe(props) {
         e.preventDefault();
         console.log('I am the handler', title)
     }
+
+    const selectHandler = (e) => {
+        console.log(e.target)
+    }
+
     return (
         <div>
             <h1>Recipe</h1>
@@ -45,11 +53,12 @@ export default function Recipe(props) {
                 </div>
                 <div>
                     <select id="categories"
+                    multiple={false}
                     name="categories"
                     value={categories}
-                    onChange={e => {setCategories(e.target.value)}}
+                    onChange={e => {selectHandler(e)}}
                     >
-                        <option>-- Categories --</option>
+                        <option key="catEmpty">-- Categories --</option>
                         {
                             categories.map(category => {
                                 return (<CategoryOption
