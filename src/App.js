@@ -7,8 +7,9 @@ import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);
+  // eslint-disable-next-line
   const [params,setSearchParms] = useSearchParams();
-  setSearchParms(params);
+  // setSearchParms(params);
   useEffect(() => {
     function checkStatus() {
       const token = params.get('token');
