@@ -208,6 +208,19 @@ export default function Recipe(props) {
                     onChange={selectHandler}>
                         <MealTypeOption />
                     </select>
+                    <StyledUl>
+                    {
+                        mealTypes.map(mealType => {
+                            return (
+                                <li
+                                    key={mealType['id']}>
+                                    <div><span role="img">{mealType['ico']}</span>
+                                {mealType['description']}
+                                </div>
+                            </li>)
+                        })
+                    }
+                    </StyledUl>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions</label>
