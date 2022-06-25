@@ -12,23 +12,13 @@ const mealTypes = [
     {id: 4, description: 'dinner', ico: String.fromCodePoint('0x1F96A')}
 ];  // TODO fetch this form somewhere else
 
-const catIcons = {
-    'butter': String.fromCodePoint('0x1F9C8'),
-};
-
-const catIconsfn = function (category) {
-    //const regex = /`^${category}*`/
-    let ico = String.fromCodePoint('0x1F631');
-    switch (category) {
-        case 'butter':
-            ico = catIcons['butter']
-            break;
-        default:
-            break;
-    }
-    
-    return ico;
-}
+const mealCategories = [
+    { id: 0, description: 'vegetable', ico: String.fromCodePoint('0x1F96C')},  // :leafy_green:
+    { id: 1, description: 'fruit', ico: String.fromCodePoint('0x1F349')},  // .🍉 
+    { id: 2, description: 'grains', ico: String.fromCodePoint('0x1F35A')},  // :rice:
+    { id: 3, description: 'seeds', ico: String.fromCodePoint('0x1F331')}, // :seedling:
+    { id: 4, description: 'meat', ico: String.fromCodePoint('0x1F356')}   // :meat_bone:
+];
 
 function CategoryOption(props) {
     return (
@@ -157,6 +147,32 @@ export default function Recipe(props) {
                     />
                 </div>
                 <div>
+                    <select id="mealType" name="mealType"
+                    hidden={true}
+                    multiple={true}
+                    value={recipe.mealType}
+                    onChange={selectHandler}>
+                        <MealTypeOption />
+                    </select>
+                    <StyledUl>
+                    {
+                        mealTypes.map(mealType => {
+                            return (
+                                <li
+                                    key={mealType['id']}>
+                                <StyledPill itemId={mealType.id}
+                                        itemType="mealType"
+                                        onClick={selectHandler}>
+                                        <span role="img">{mealType['ico']}</span>
+                                        {' '}
+                                        {mealType.description}
+                            </StyledPill>
+                            </li>)
+                        })
+                    }
+                    </StyledUl>
+                </div>
+                <div>
                     <select id="categories"
                     hidden={true}
                     multiple={true}
@@ -169,22 +185,24 @@ export default function Recipe(props) {
                                     <CategoryOption
                                     key={category.id}
                                     categoryId={category.id}
-                                    description_en={category.description_en}
+                                    description_en={category.description}
                                 />)
                             })
                         }
                     </select>
+                    <h3>Categories</h3>
+                    <hr />
                     <StyledUl>
                     {
-                        categories.map(category => {
+                        mealCategories.map(category => { // TODO Fix ico size 12px
                             return (
                                 <li key={category.id}>
                                     <StyledPill itemId={category.id}
                                     itemType="category"
                                     onClick={selectHandler}>
-                                        <span role="img">{catIconsfn(category.description_en)}</span>
+                                        <span role="img">{category.ico}</span>
                                         {' '}
-                                        {category.description_en}
+                                        {category.description}
                             </StyledPill></li>)
                         })
                     }
@@ -209,6 +227,8 @@ export default function Recipe(props) {
                             })
                         }
                     </select>
+                    <h3>Ingredients</h3>
+                    <hr />
                     <StyledUl>
                     {
                         ingredients.map(ingredient => {
@@ -217,36 +237,10 @@ export default function Recipe(props) {
                                     <StyledPill itemId={ingredient.id}
                                         itemType="ingredient"
                                         onClick={selectHandler}>
-                                        <span role="img">{catIconsfn(ingredient.description_en)}</span>
+                                        <span role="img">{String.fromCodePoint('0x1F631')}</span>
                                         {' '}
                                         {ingredient.description_en}
                             </StyledPill></li>)
-                        })
-                    }
-                    </StyledUl>
-                </div>
-                <div>
-                    <select id="mealType" name="mealType"
-                    hidden={true}
-                    multiple={true}
-                    value={recipe.mealType}
-                    onChange={selectHandler}>
-                        <MealTypeOption />
-                    </select>
-                    <StyledUl>
-                    {
-                        mealTypes.map(mealType => {
-                            return (
-                                <li
-                                    key={mealType['id']}>
-                                <StyledPill itemId={mealType.id}
-                                        itemType="mealType"
-                                        onClick={selectHandler}>
-                                        <span role="img">{mealType['ico']}</span>
-                                        {' '}
-                                        {mealType.description}
-                            </StyledPill>
-                            </li>)
                         })
                     }
                     </StyledUl>
