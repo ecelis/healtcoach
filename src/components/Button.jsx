@@ -21,3 +21,22 @@ export default function StyledButton (props) {
     </div>
     );
 }
+
+const Pill = styled.a`
+display: inline-block;
+border-radius: 3px;
+padding: 3px;
+width: 5rem;
+background: transparent;
+color: black;
+border: 2px solid black;
+font-size: 11px;
+`;
+
+export function StyledPill (props) {
+  return (
+    <Pill onClick={props.onClick} id={props.itemId}
+      href={`${props.itemType},${props.itemId}`}>
+      {props.children}</Pill>
+  );
+}

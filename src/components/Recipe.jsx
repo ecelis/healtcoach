@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { apiUrlBuilder, axiosOpts } from './util';
-import StyledButton from './Button';
+import StyledButton, { StyledPill } from './Button';
 import StyledUl from './Cloud';
 
 const mealTypes = [
@@ -104,30 +104,37 @@ export default function Recipe(props) {
     }
 
     const selectHandler = (e) => {
+
+        e.preventDefault()
         let arr = [];
         let obj;
-        switch (e.target.id) {
-            case 'categories':
+        const splitUrl = e.target.href.split('/');
+        const target = splitUrl[splitUrl.length - 1];
+        const [trigger, id] = target.split(',');
+        console.log(trigger,id)
+        switch (trigger) {
+            case 'category':
                 arr = [...new Set([...recipe.categories,
-                    parseInt(e.target.value)])];
+                    parseInt(id)])];
                 obj = {...recipe, ...{categories: arr}}
                 setRecipe(obj);
                 break;
-            case 'ingredients':
+            case 'ingredient':
                 arr = [...new Set([...recipe.ingredients,
-                    parseInt(e.target.value)])];
+                    parseInt(id)])];
                 obj = {...recipe, ...{ingredients: arr}}
                 setRecipe(obj);
                 break;
             case 'mealType':
                 arr = [...new Set([...recipe.mealType,
-                    parseInt(e.target.value)])];
+                    parseInt(id)])];
                 obj = {...recipe, ...{mealType: arr}}
                 setRecipe(obj);
                 break;
             default:
-                setRecipe(recipe);
+                break;
         }
+        console.log(recipe);
     }
 
     return (
@@ -151,10 +158,10 @@ export default function Recipe(props) {
                 </div>
                 <div>
                     <select id="categories"
+                    hidden={true}
                     multiple={true}
                     name="categories"
                     value={recipe.categories}
-                    onChange={selectHandler}
                     >
                         {
                             categories.map(category => {
@@ -171,22 +178,24 @@ export default function Recipe(props) {
                     {
                         categories.map(category => {
                             return (
-                                <li
-                                    key={category.id}>
-                                    <div><span role="img">{catIconsfn(category.description_en)}</span>
-                                {category.description_en}
-                                </div>
-                            </li>)
+                                <li key={category.id}>
+                                    <StyledPill itemId={category.id}
+                                    itemType="category"
+                                    onClick={selectHandler}>
+                                        <span role="img">{catIconsfn(category.description_en)}</span>
+                                        {' '}
+                                        {category.description_en}
+                            </StyledPill></li>)
                         })
                     }
                     </StyledUl>
                 </div>
                 <div>
                     <select id="ingredients"
+                    hidden={true}
                     multiple={true}
                     name="ingredients"
                     value={recipe.ingredients}
-                    onChange={selectHandler}
                     >
                         {
                             ingredients.map(ingredient => {
@@ -200,9 +209,25 @@ export default function Recipe(props) {
                             })
                         }
                     </select>
+                    <StyledUl>
+                    {
+                        ingredients.map(ingredient => {
+                            return (
+                                <li key={ingredient.id}>
+                                    <StyledPill itemId={ingredient.id}
+                                        itemType="ingredient"
+                                        onClick={selectHandler}>
+                                        <span role="img">{catIconsfn(ingredient.description_en)}</span>
+                                        {' '}
+                                        {ingredient.description_en}
+                            </StyledPill></li>)
+                        })
+                    }
+                    </StyledUl>
                 </div>
                 <div>
                     <select id="mealType" name="mealType"
+                    hidden={true}
                     multiple={true}
                     value={recipe.mealType}
                     onChange={selectHandler}>
@@ -214,9 +239,13 @@ export default function Recipe(props) {
                             return (
                                 <li
                                     key={mealType['id']}>
-                                    <div><span role="img">{mealType['ico']}</span>
-                                {mealType['description']}
-                                </div>
+                                <StyledPill itemId={mealType.id}
+                                        itemType="mealType"
+                                        onClick={selectHandler}>
+                                        <span role="img">{mealType['ico']}</span>
+                                        {' '}
+                                        {mealType.description}
+                            </StyledPill>
                             </li>)
                         })
                     }
