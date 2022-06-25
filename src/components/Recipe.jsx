@@ -21,11 +21,33 @@ function IngredientOption(props) {
     );
 }
 
+function MealTypeOption() {
+    const mealTypes = [
+        {id: 0, description: 'breakfast'},
+        {id: 1, description: 'brunch'},
+        {id: 2, description: 'meal'},
+        {id: 3, description: 'snack'},
+        {id: 4, description: 'dinner'}];  // TODO fetch this form somewhere else
+
+    return (
+        mealTypes.map(meal => {
+            return (
+                <option key={`mt${meal.id}`}
+                value={meal.id}>{meal.description}</option>
+            )
+        })        
+    );
+}
+
 export default function Recipe(props) {
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
     const [recipe, setRecipe] = useState({
-        title: '', ingredients: [], categories: [], instructions: ''
+        title: '',
+        ingredients: [],
+        categories: [],
+        mealType: [],  // TODO review why I did it a string to convert into oarray
+        instructions: ''
     });
 
     useEffect(() => {  // GET categories
@@ -52,7 +74,13 @@ export default function Recipe(props) {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log('I am the handler', recipe)
+        // TODO this is ugly
+        const payload = {...recipe, ...{mealType: recipe.mealType.toString()}};
+        axios.post(apiUrlBuilder('recipe'), payload, axiosOpts)
+            .then(res => {
+                res.toString();
+            })
+            .catch(error => error.toString()) // TODO Handle error
     }
 
     const selectHandler = (e) => {
@@ -62,14 +90,20 @@ export default function Recipe(props) {
             case 'categories':
                 arr = [...new Set([...recipe.categories,
                     parseInt(e.target.value)])];
-                    obj = {...recipe, ...{categories: arr}}
-                    setRecipe(obj);
+                obj = {...recipe, ...{categories: arr}}
+                setRecipe(obj);
                 break;
             case 'ingredients':
                 arr = [...new Set([...recipe.ingredients,
                     parseInt(e.target.value)])];
-                    obj = {...recipe, ...{ingredients: arr}}
-                    setRecipe(obj);
+                obj = {...recipe, ...{ingredients: arr}}
+                setRecipe(obj);
+                break;
+            case 'mealType':
+                arr = [...new Set([...recipe.mealType,
+                    parseInt(e.target.value)])];
+                obj = {...recipe, ...{mealType: arr}}
+                setRecipe(obj);
                 break;
             default:
                 setRecipe(recipe);
@@ -132,6 +166,14 @@ export default function Recipe(props) {
                                 )
                             })
                         }
+                    </select>
+                </div>
+                <div>
+                    <select id="mealType" name="mealType"
+                    multiple={true}
+                    value={recipe.mealType}
+                    onChange={selectHandler}>
+                        <MealTypeOption />
                     </select>
                 </div>
                 <div>
