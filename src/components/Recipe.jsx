@@ -2,6 +2,33 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { apiUrlBuilder, axiosOpts } from './util';
 import StyledButton from './Button';
+import StyledUl from './Cloud';
+
+const mealTypes = [
+    {id: 0, description: 'breakfast', ico: String.fromCodePoint('0x1F373')},
+    {id: 1, description: 'brunch', ico: String.fromCodePoint('0x1F347')},
+    {id: 2, description: 'meal', ico: String.fromCodePoint('0x1F35B')},
+    {id: 3, description: 'snack', ico: String.fromCodePoint('0x1F968')},
+    {id: 4, description: 'dinner', ico: String.fromCodePoint('0x1F96A')}
+];  // TODO fetch this form somewhere else
+
+const catIcons = {
+    'butter': String.fromCodePoint('0x1F9C8'),
+};
+
+const catIconsfn = function (category) {
+    //const regex = /`^${category}*`/
+    let ico = String.fromCodePoint('0x1F631');
+    switch (category) {
+        case 'butter':
+            ico = catIcons['butter']
+            break;
+        default:
+            break;
+    }
+    
+    return ico;
+}
 
 function CategoryOption(props) {
     return (
@@ -22,13 +49,6 @@ function IngredientOption(props) {
 }
 
 function MealTypeOption() {
-    const mealTypes = [
-        {id: 0, description: 'breakfast'},
-        {id: 1, description: 'brunch'},
-        {id: 2, description: 'meal'},
-        {id: 3, description: 'snack'},
-        {id: 4, description: 'dinner'}];  // TODO fetch this form somewhere else
-
     return (
         mealTypes.map(meal => {
             return (
@@ -147,6 +167,19 @@ export default function Recipe(props) {
                             })
                         }
                     </select>
+                    <StyledUl>
+                    {
+                        categories.map(category => {
+                            return (
+                                <li
+                                    key={category.id}>
+                                    <div><span role="img">{catIconsfn(category.description_en)}</span>
+                                {category.description_en}
+                                </div>
+                            </li>)
+                        })
+                    }
+                    </StyledUl>
                 </div>
                 <div>
                     <select id="ingredients"
