@@ -3,6 +3,7 @@ import axios from 'axios';
 import { apiUrlBuilder, axiosOpts } from './util';
 import StyledButton, { StyledPill } from './Button';
 import StyledUl from './Cloud';
+import StyledContainer from './Container';
 
 const mealTypes = [
     {id: 0, description: 'breakfast', ico: String.fromCodePoint('0x1F373')},
@@ -13,11 +14,12 @@ const mealTypes = [
 ];  // TODO fetch this form somewhere else
 
 const mealCategories = [
-    { id: 0, description: 'vegetable', ico: String.fromCodePoint('0x1F96C')},  // :leafy_green:
-    { id: 1, description: 'fruit', ico: String.fromCodePoint('0x1F349')},  // .🍉 
-    { id: 2, description: 'grains', ico: String.fromCodePoint('0x1F35A')},  // :rice:
-    { id: 3, description: 'seeds', ico: String.fromCodePoint('0x1F331')}, // :seedling:
-    { id: 4, description: 'meat', ico: String.fromCodePoint('0x1F356')}   // :meat_bone:
+    { id: 1, description: 'Fruit', ico: String.fromCodePoint('0x1F349')},  // :leafy_green:
+    { id: 2, description: 'Grains', ico: String.fromCodePoint('0x1F35A')},  // .🍉 
+    { id: 3, description: 'Meats', ico: String.fromCodePoint('0x1F356')},  // :rice:
+    { id: 4, description: 'Milk', ico: String.fromCodePoint('0x1F9C8')}, // :seedling:
+    { id: 5, description: 'Seeds', ico: String.fromCodePoint('0x1F331')} ,  // :meat_bone:
+    { id: 6, description: 'Vegetals', ico: String.fromCodePoint('0x1F96C')}   // :meat_bone:
 ];
 
 function CategoryOption(props) {
@@ -70,7 +72,7 @@ export default function Recipe(props) {
         })
         .catch(error => { error.toString();  /* TODO handle errors properly */ });
     }, []);
-
+/*
     useEffect(() => {  // GET ingredients
         axios.get(apiUrlBuilder('ingredient'),
             {}, axiosOpts
@@ -79,9 +81,9 @@ export default function Recipe(props) {
             const {data} = res;
             setIngredients(data);
         })
-        .catch(error => { error.toString();  /* TODO handle errors properly */ });
+        .catch(error => { error.toString();   });
     }, []);
-
+*/
     const submitHandler = (e) => {
         e.preventDefault();
         // TODO this is ugly
@@ -94,8 +96,8 @@ export default function Recipe(props) {
     }
 
     const selectHandler = (e) => {
-
-        e.preventDefault()
+        e.preventDefault();
+        //const payload = {};
         let arr = [];
         let obj;
         const splitUrl = e.target.href.split('/');
@@ -108,6 +110,13 @@ export default function Recipe(props) {
                     parseInt(id)])];
                 obj = {...recipe, ...{categories: arr}}
                 setRecipe(obj);
+
+                axios.get(apiUrlBuilder('ingredient/categories/' + obj.categories))
+                    .then(res => {
+                        setIngredients(res.data);
+                    })
+                    .catch(error => console.log(error));
+
                 break;
             case 'ingredient':
                 arr = [...new Set([...recipe.ingredients,
@@ -129,10 +138,9 @@ export default function Recipe(props) {
 
     return (
         <div>
-            <h1>Recipe</h1>
             <form onSubmit={submitHandler}>
                 <div>
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Recipe</label>
                     <input type="text"
                     value={recipe.title}
                     id="title"
@@ -178,6 +186,7 @@ export default function Recipe(props) {
                     multiple={true}
                     name="categories"
                     value={recipe.categories}
+                    readOnly
                     >
                         {
                             categories.map(category => {
@@ -191,7 +200,6 @@ export default function Recipe(props) {
                         }
                     </select>
                     <h3>Categories</h3>
-                    <hr />
                     <StyledUl>
                     {
                         mealCategories.map(category => { // TODO Fix ico size 12px
@@ -214,6 +222,7 @@ export default function Recipe(props) {
                     multiple={true}
                     name="ingredients"
                     value={recipe.ingredients}
+                    readOnly
                     >
                         {
                             ingredients.map(ingredient => {
@@ -228,7 +237,7 @@ export default function Recipe(props) {
                         }
                     </select>
                     <h3>Ingredients</h3>
-                    <hr />
+                    <StyledContainer>
                     <StyledUl>
                     {
                         ingredients.map(ingredient => {
@@ -237,19 +246,18 @@ export default function Recipe(props) {
                                     <StyledPill itemId={ingredient.id}
                                         itemType="ingredient"
                                         onClick={selectHandler}>
-                                        <span role="img">{String.fromCodePoint('0x1F631')}</span>
-                                        {' '}
                                         {ingredient.description_en}
                             </StyledPill></li>)
                         })
                     }
                     </StyledUl>
+                    </StyledContainer>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions</label>
                     <textarea
                     cols="40"
-                    rows="24"
+                    rows="12"
                     value={recipe.instructions}
                     id="instructions"
                     name="instructions"

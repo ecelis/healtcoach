@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import StyledButton from './Button';
 
 const SigninForm = (props) => {
   const [email, setEmail] = useState('');
@@ -29,7 +30,7 @@ const SigninForm = (props) => {
         aria-label="e-mail"
         /></div>
         <div>
-      <button type="submit">Get In!</button></div>
+      <StyledButton type="submit" text="Get In!" primary /></div>
         <div><p>Display Name (optional)</p><input type="text"
         value={displayName} placeholder="Joyful User"
         aria-label="Display Name"

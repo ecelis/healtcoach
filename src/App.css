@@ -22,8 +22,10 @@ body {
   background-color: var(--veryperi);
   padding-left: 5px;
   padding-right: 5px;
+  text-align: center;
 }
 .wrapper {
   border-color: #38382d;
   width: 375px;
+  text-align: center;
 }

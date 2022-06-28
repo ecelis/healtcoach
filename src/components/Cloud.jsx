@@ -8,7 +8,6 @@ const Cloud = styled.ul`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  line-height: 2.5rem;
 `;
 
 export default function StyledUl (props) {
