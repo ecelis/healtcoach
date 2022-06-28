@@ -1,23 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { StyledLink } from './Link';
+import Navigation, { StyledH1 } from './Navbar';
 
 function Badge(props) {
   return (
     <div>
       <span>{props.displayName}</span>
-      [<Link to={'/'} onClick={() => { props.setUser(null); sessionStorage.clear(); }}>Log Out</Link>]
+      {' '}
+      [<StyledLink invert to={'/'}
+      onClick={() => {
+        props.setUser(null); sessionStorage.clear();
+      }}>Log Out</StyledLink>]
     </div>
-  );
-}
-
-function Navigation(props) {
-  const items = ['Recipes']
-  return (
-    <div><ul>
-      {
-        items.map(i => {return (<li key={i}><Link to='/recipe'>{i}</Link></li>)})
-      }
-    </ul></div>
   );
 }
 
@@ -25,7 +19,7 @@ export default function Header(props) {
     const { user } = props;
     return (
       <div className="header">
-        <h1><Link to={'/'}>Web Health Coach</Link></h1>
+        <StyledH1 to={'/'}>Web Health Coach</StyledH1>
         { user ?
         <div>
           <Badge displayName={user.displayName} setUser={props.setUser} />

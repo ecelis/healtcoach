@@ -3,6 +3,7 @@ import axios from 'axios';
 import { apiUrlBuilder, axiosOpts } from './util';
 import StyledButton, { StyledPill } from './Button';
 import StyledUl from './Cloud';
+import StyledContainer from './Container';
 
 const mealTypes = [
     {id: 0, description: 'breakfast', ico: String.fromCodePoint('0x1F373')},
@@ -236,6 +237,7 @@ export default function Recipe(props) {
                         }
                     </select>
                     <h3>Ingredients</h3>
+                    <StyledContainer>
                     <StyledUl>
                     {
                         ingredients.map(ingredient => {
@@ -249,6 +251,7 @@ export default function Recipe(props) {
                         })
                     }
                     </StyledUl>
+                    </StyledContainer>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions</label>
