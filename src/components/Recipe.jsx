@@ -97,7 +97,7 @@ export default function Recipe(props) {
 
     const selectHandler = (e) => {
         e.preventDefault();
-        const payload = {};
+        //const payload = {};
         let arr = [];
         let obj;
         const splitUrl = e.target.href.split('/');
