@@ -29,7 +29,7 @@ padding: 3px;
 margin: 3px;
 width: 5rem;
 background: #6667ab;
-color: black;
+color: whitesmoke;
 border-color: none;
 border-radius: 32px;
 font-size: 12px;
