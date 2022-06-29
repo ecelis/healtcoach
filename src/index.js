@@ -8,6 +8,7 @@ import {
 import './index.css';
 import App from './App';
 import Calendar from './components/Calendar';
+import Menu from './components/Menu';
 import Recipe from './components/Recipe';
 import reportWebVitals from './reportWebVitals';
 
@@ -17,6 +18,7 @@ root.render(
     <BrowserRouter><Routes>
       <Route path="/" element={<App />}>
         <Route path='calendar' element={<Calendar />} />
+        <Route path='/menu' element={<Menu />} />
         <Route path="recipe" element={<Recipe />} />
         <Route
         path="*"
