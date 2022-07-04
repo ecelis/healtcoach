@@ -177,7 +177,9 @@ export default function Recipe(props) {
                                 <li key={category.id}>
                                     <StyledPill itemId={category.id}
                                     itemType="category"
-                                    onClick={selectHandler}>
+                                    onClick={selectHandler}
+                                    selected={ recipe.categories.includes(category.id) ? true : false }
+                                    >
                                         <span role="img">{category.ico}</span>
                                         {' '}
                                         {category.description}
@@ -215,7 +217,9 @@ export default function Recipe(props) {
                                 <li key={ingredient.id}>
                                     <StyledPill itemId={ingredient.id}
                                         itemType="ingredient"
-                                        onClick={selectHandler}>
+                                        onClick={selectHandler}
+                                        selected={recipe.ingredients.includes(ingredient.id) ? true : false}
+                                        >
                                         {ingredient.description_en}
                             </StyledPill></li>)
                         })
