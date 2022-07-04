@@ -29,8 +29,9 @@ padding: 3px;
 margin: 3px;
 width: 5rem;
 background: #6667ab;
-color: whitesmoke;
-border-color: none;
+background: ${props => props.selected ? "#6667ab" : "lightgrey"};
+color: ${props => props.selected ? "whitesmoke" : "#6667ab"};
+border: ${props => props.selected ? "none" : "thin solid grey"};
 border-radius: 32px;
 font-size: 12px;
 text-align: center;
@@ -40,7 +41,8 @@ text-decoration: none;
 export function StyledPill (props) {
   return (
     <Pill onClick={props.onClick} id={props.itemId}
-      href={`${props.itemType},${props.itemId}`}>
+      href={`${props.itemType},${props.itemId}`}
+      selected={props.selected}>
       {props.children}</Pill>
   );
 }
