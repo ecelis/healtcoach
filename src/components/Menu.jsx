@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MealType } from "./Meal";
 import axios from 'axios';
 import { axiosOpts, apiUrlBuilder } from "./util";
+import StyledButton from "./Button";
 
 function RecipeOption(props) {
     const { recipe } = props;    
@@ -104,11 +105,12 @@ export default function Menu (props) {
                         setMenu(obj)
                     }}
                     />
+                    <div>
                    <MealType
                     selectedMealTypes={[parseInt(currentMeal)]}
                     selectHandler={selectHandler}
                     mealTypes={mealTypes}
-                    />
+                    /></div>
                     <div>
                         <select id="recipes" name="recipes" size={5}
                         onChange={selectHandler}>
@@ -118,6 +120,10 @@ export default function Menu (props) {
                         })
                         }
                         </select>
+                    </div>
+                    <div>
+                        <StyledButton text="Save" primary/>
+                        {`${JSON.stringify(menu)}`}
                     </div>
                 </div>
             </form>
