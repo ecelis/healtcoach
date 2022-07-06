@@ -3,16 +3,24 @@ import { MealType } from "./Meal";
 import axios from 'axios';
 import { axiosOpts, apiUrlBuilder } from "./util";
 
+function RecipeOption(props) {
+    const { recipe } = props;    
+    return (
+        <option key={recipe.id} value={recipe.id}>{recipe.title}</option>
+    )
+}
+
 export default function Menu (props) {
     const [mealTypes, setMealTypes] = useState([]);
     const [menu, setMenu] = useState({
         title: '',
         date: new Date().getDate(),
-        menus: [],
-        meals: [],
+        meals: {},
         UserId: null
     });
-    const [recetas, setRecetas] = useState([]);
+    const [recipes, setRecipes] = useState([]);
+    const [currentMeal, setCurrentMeal] = useState();
+    const [meals, setMeals] = useState([]);
 
     useEffect(() => {
         // GET MealTypes
@@ -27,22 +35,56 @@ export default function Menu (props) {
 
     const selectHandler = (e) => {
         e.preventDefault();
-        console.log(e.target)
         let arr = [];
         let obj;
-        const splitUrl = e.target.href.split('/');
-        const target = splitUrl[splitUrl.length - 1];
-        const [trigger, id] = target.split(',');
-        arr = [...new Set([...menu.meals,
-            parseInt(id)])];
-        obj = {...menu, ...{meals: arr}}
-        setMenu(obj);
+        let splitUrl = null;
+        let target = null;
+        let trigger = null;
+        let id = null;
+        if (e.target.href)
+        {
+            splitUrl = e.target.href.split('/');
+            target = splitUrl[splitUrl.length - 1];
+            [trigger, id] = target.split(',');
+        } else {
+            trigger = 'receta'
+        }
+        switch (trigger) {
+            case 'mealType':
+                setCurrentMeal(id);
+                const mealOnMenu = menu.meals;
+                if(mealOnMenu[id]) {
+                    mealOnMenu[id] = {
+                        ...mealTypes.find(i => i.id === parseInt(id)),
+                        recipes: mealOnMenu[id].recipes
+                    };
+                } else {
+                    mealOnMenu[id] = {
+                        ...mealTypes.find(i => i.id === parseInt(id)),
+                        recipes: []
+                    };
+                }
+                obj = {...menu, ...{meals: mealOnMenu}}
+                setMenu(obj);
 
-        axios.get(apiUrlBuilder('recipe/mealtype/' + obj.meals))
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(error => console.log(error))
+                axios.get(apiUrlBuilder('recipe/mealtype/' + id, {}, axiosOpts))
+                    .then(res => {
+                        const mealtype = res.data[0];
+                        setRecipes(mealtype.Recipes);
+                    })
+                    .catch(error => console.log(error));
+                break;
+            case 'receta':
+                const meal = menu.meals[currentMeal];
+                const recipe = recipes.find(i => i.id === parseInt(e.target.value));
+                meal.recipes.push(recipe);
+                const newMeals = Object.assign({}, menu.meals, meal)
+                obj = {...menu, ...{meals: newMeals}}
+                setMenu(obj);
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -62,11 +104,21 @@ export default function Menu (props) {
                         setMenu(obj)
                     }}
                     />
-                    <MealType
-                    mealType={1}
+                   <MealType
+                    selectedMealTypes={[parseInt(currentMeal)]}
                     selectHandler={selectHandler}
                     mealTypes={mealTypes}
-                 />
+                    />
+                    <div>
+                        <select id="recipes" name="recipes" size={5}
+                        onChange={selectHandler}>
+                        {
+                        recipes.map(recipe => {
+                            return <RecipeOption key={recipe.id} recipe={recipe} />
+                        })
+                        }
+                        </select>
+                    </div>
                 </div>
             </form>
         </div>

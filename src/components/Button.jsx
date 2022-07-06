@@ -31,7 +31,7 @@ width: 5rem;
 background: #6667ab;
 background: ${props => props.selected ? "#6667ab" : "lightgrey"};
 color: ${props => props.selected ? "whitesmoke" : "#6667ab"};
-border: ${props => props.selected ? "none" : "thin solid grey"};
+border: ${props => props.selected ? "thin solid #6667ab" : "thin solid grey"};
 border-radius: 32px;
 font-size: 12px;
 text-align: center;
