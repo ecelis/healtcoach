@@ -37,7 +37,15 @@ export default function Navigation(props) {
     return (
       <StyledNavbar><StyledUlNav>
         {
-          items.map(i => {return (<StyledLi key={i}><StyledLink to='/recipe'>{i}</StyledLink></StyledLi>)})
+          items.map(item => {
+            return (
+              <StyledLi key={item}>
+                <StyledLink to={`/${item.toLocaleLowerCase()}`}>
+                  {item}
+                </StyledLink>
+              </StyledLi>
+            )
+          })
         }
       </StyledUlNav></StyledNavbar>
     );

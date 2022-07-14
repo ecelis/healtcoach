@@ -7,7 +7,7 @@ function Badge(props) {
     <div>
       <span>{props.displayName}</span>
       {' '}
-      [<StyledLink invert to={'/'}
+      [<StyledLink invert="true" to={'/'}
       onClick={() => {
         props.setUser(null); sessionStorage.clear();
       }}>Log Out</StyledLink>]

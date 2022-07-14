@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { apiUrlBuilder, axiosOpts } from './util';
+import {
+    apiUrlBuilder,
+    axiosOpts,
+    mealCategories
+} from './util';
 import StyledButton, { StyledPill } from './Button';
 import StyledUl from './Cloud';
 import StyledContainer from './Container';
-
-const mealTypes = [
-    {id: 0, description: 'breakfast', ico: String.fromCodePoint('0x1F373')},
-    {id: 1, description: 'brunch', ico: String.fromCodePoint('0x1F347')},
-    {id: 2, description: 'meal', ico: String.fromCodePoint('0x1F35B')},
-    {id: 3, description: 'snack', ico: String.fromCodePoint('0x1F968')},
-    {id: 4, description: 'dinner', ico: String.fromCodePoint('0x1F96A')}
-];  // TODO fetch this form somewhere else
-
-const mealCategories = [
-    { id: 1, description: 'Fruit', ico: String.fromCodePoint('0x1F349')},  // :leafy_green:
-    { id: 2, description: 'Grains', ico: String.fromCodePoint('0x1F35A')},  // .🍉 
-    { id: 3, description: 'Meats', ico: String.fromCodePoint('0x1F356')},  // :rice:
-    { id: 4, description: 'Milk', ico: String.fromCodePoint('0x1F9C8')}, // :seedling:
-    { id: 5, description: 'Seeds', ico: String.fromCodePoint('0x1F331')} ,  // :meat_bone:
-    { id: 6, description: 'Vegetals', ico: String.fromCodePoint('0x1F96C')}   // :meat_bone:
-];
+import { MealType } from './Meal';
 
 function CategoryOption(props) {
     return (
@@ -40,20 +28,10 @@ function IngredientOption(props) {
     );
 }
 
-function MealTypeOption() {
-    return (
-        mealTypes.map(meal => {
-            return (
-                <option key={`mt${meal.id}`}
-                value={meal.id}>{meal.description}</option>
-            )
-        })        
-    );
-}
-
 export default function Recipe(props) {
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [mealTypes, setMealTypes] = useState([]);
     const [recipe, setRecipe] = useState({
         title: '',
         ingredients: [],
@@ -62,7 +40,16 @@ export default function Recipe(props) {
         instructions: ''
     });
 
-    useEffect(() => {  // GET categories
+    useEffect(() => {
+        // GET MealTypes
+        axios.get(apiUrlBuilder('mealtype'), {}, axiosOpts)
+            .then(res => {
+                const {data} = res;
+                setMealTypes(data);
+                localStorage.setItem('mealTypes', data);
+            })
+            .catch(error => error.toString() );
+        // GET categories
         axios.get(apiUrlBuilder('category'),
             {}, axiosOpts
         )
@@ -72,18 +59,7 @@ export default function Recipe(props) {
         })
         .catch(error => { error.toString();  /* TODO handle errors properly */ });
     }, []);
-/*
-    useEffect(() => {  // GET ingredients
-        axios.get(apiUrlBuilder('ingredient'),
-            {}, axiosOpts
-        )
-        .then(res => {
-            const {data} = res;
-            setIngredients(data);
-        })
-        .catch(error => { error.toString();   });
-    }, []);
-*/
+
     const submitHandler = (e) => {
         e.preventDefault();
         // TODO this is ugly
@@ -103,11 +79,16 @@ export default function Recipe(props) {
         const splitUrl = e.target.href.split('/');
         const target = splitUrl[splitUrl.length - 1];
         const [trigger, id] = target.split(',');
-        console.log(trigger,id)
+        console.log(trigger,id) // TODO Remove
         switch (trigger) {
             case 'category':
-                arr = [...new Set([...recipe.categories,
-                    parseInt(id)])];
+                if (recipe.categories.includes(parseInt(id))) {
+                    arr = recipe.categories;
+                    arr.splice(recipe.categories.indexOf(parseInt(id), 1));
+                } else {
+                    arr = [...new Set([...recipe.categories,
+                        parseInt(id)])];
+                }
                 obj = {...recipe, ...{categories: arr}}
                 setRecipe(obj);
 
@@ -119,21 +100,31 @@ export default function Recipe(props) {
 
                 break;
             case 'ingredient':
-                arr = [...new Set([...recipe.ingredients,
-                    parseInt(id)])];
+                if (recipe.ingredients.includes(parseInt(id))) {
+                    arr = recipe.ingredients;
+                    arr.splice(recipe.ingredients.indexOf(parseInt(id), 1));
+                } else {
+                    arr = [...new Set([...recipe.ingredients,
+                        parseInt(id)])];
+                }                
                 obj = {...recipe, ...{ingredients: arr}}
                 setRecipe(obj);
                 break;
             case 'mealType':
-                arr = [...new Set([...recipe.mealType,
-                    parseInt(id)])];
+                if (recipe.mealType.includes(parseInt(id))) {
+                    arr = recipe.mealType;
+                    arr.splice(recipe.mealType.indexOf(parseInt(id), 1));
+                } else {
+                    arr = [...new Set([...recipe.mealType,
+                        parseInt(id)])];
+                }
                 obj = {...recipe, ...{mealType: arr}}
                 setRecipe(obj);
                 break;
             default:
                 break;
         }
-        console.log(recipe);
+        console.log(recipe); // TODO Remove
     }
 
     return (
@@ -154,32 +145,11 @@ export default function Recipe(props) {
                     }}
                     />
                 </div>
-                <div>
-                    <select id="mealType" name="mealType"
-                    hidden={true}
-                    multiple={true}
-                    value={recipe.mealType}
-                    onChange={selectHandler}>
-                        <MealTypeOption />
-                    </select>
-                    <StyledUl>
-                    {
-                        mealTypes.map(mealType => {
-                            return (
-                                <li
-                                    key={mealType['id']}>
-                                <StyledPill itemId={mealType.id}
-                                        itemType="mealType"
-                                        onClick={selectHandler}>
-                                        <span role="img">{mealType['ico']}</span>
-                                        {' '}
-                                        {mealType.description}
-                            </StyledPill>
-                            </li>)
-                        })
-                    }
-                    </StyledUl>
-                </div>
+                <MealType
+                    selectedMealTypes={recipe.mealType}
+                    selectHandler={selectHandler}
+                    mealTypes={mealTypes}
+                 />
                 <div>
                     <select id="categories"
                     hidden={true}
@@ -207,7 +177,9 @@ export default function Recipe(props) {
                                 <li key={category.id}>
                                     <StyledPill itemId={category.id}
                                     itemType="category"
-                                    onClick={selectHandler}>
+                                    onClick={selectHandler}
+                                    selected={ recipe.categories.includes(category.id) ? true : false }
+                                    >
                                         <span role="img">{category.ico}</span>
                                         {' '}
                                         {category.description}
@@ -245,7 +217,9 @@ export default function Recipe(props) {
                                 <li key={ingredient.id}>
                                     <StyledPill itemId={ingredient.id}
                                         itemType="ingredient"
-                                        onClick={selectHandler}>
+                                        onClick={selectHandler}
+                                        selected={recipe.ingredients.includes(ingredient.id) ? true : false}
+                                        >
                                         {ingredient.description_en}
                             </StyledPill></li>)
                         })
