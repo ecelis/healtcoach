@@ -21,8 +21,7 @@ export default function Menu (props) {
     });
     const [recipes, setRecipes] = useState([]);
     const [currentMeal, setCurrentMeal] = useState();
-    const [meals, setMeals] = useState([]);
-
+    
     useEffect(() => {
         // GET MealTypes
         axios.get(apiUrlBuilder('mealtype'), {}, axiosOpts)
@@ -88,23 +87,50 @@ export default function Menu (props) {
         }
     }
 
+    const handleDate = function(e) {
+        console.log('tgt', e.target.value)
+        const d = e.target.value;
+        console.log('date',d)
+        const obj = {
+            ...menu,
+            ...{date: d}
+        };
+console.log(obj);
+        setMenu(obj);
+    }
+
+    const submitHandler = function(e) {
+        e.preventDefault();
+        axios.post(apiUrlBuilder('menu'), menu, axiosOpts)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
         <div>
-            <form>
+            <form onSubmit={submitHandler}>
                 <div>
-                    <label htmlFor="title">Menu</label>{' '}
-                    <input type="text"
-                    value={menu.title}
-                    id="title"
-                    name="title"
-                    onChange={e => {
-                        const obj = {
-                            ...menu,
-                            ...{title: e.target.value}
-                        }
-                        setMenu(obj)
-                    }}
-                    />
+                    <div>
+                        <label htmlFor="title">Menu</label>{' '}
+                        <input type="text"
+                        value={menu.title}
+                        id="title"
+                        name="title"
+                        onChange={e => {
+                            const obj = {
+                                ...menu,
+                                ...{title: e.target.value}
+                            }
+                            setMenu(obj)
+                        }}
+                        />
+                    </div>
+                    <div><input type="date"  id="menuDate"
+                    onChange={handleDate}/></div>
                     <div>
                    <MealType
                     selectedMealTypes={[parseInt(currentMeal)]}
@@ -113,7 +139,7 @@ export default function Menu (props) {
                     /></div>
                     <div>
                         <select id="recipes" name="recipes" size={5}
-                        onChange={selectHandler}>
+                        onChange={selectHandler} multiple>
                         {
                         recipes.map(recipe => {
                             return <RecipeOption key={recipe.id} recipe={recipe} />

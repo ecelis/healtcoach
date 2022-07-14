@@ -10,6 +10,7 @@ import App from './App';
 import Calendar from './components/Calendar';
 import Menu from './components/Menu';
 import Recipe from './components/Recipe';
+import RecipeList from './components/RecipeList';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,8 +19,9 @@ root.render(
     <BrowserRouter><Routes>
       <Route path="/" element={<App />}>
         <Route path='calendar' element={<Calendar />} />
-        <Route path='/menu' element={<Menu />} />
-        <Route path="recipe" element={<Recipe />} />
+        <Route path='menu' element={<Menu />} />
+        <Route path="recipe" element={<RecipeList />} />
+        <Route path="recipe/new" element={<Recipe />} />
         <Route
         path="*"
         element={<Calendar />} />
