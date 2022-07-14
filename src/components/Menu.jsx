@@ -35,7 +35,6 @@ export default function Menu (props) {
 
     const selectHandler = (e) => {
         e.preventDefault();
-        let arr = [];
         let obj;
         let splitUrl = null;
         let target = null;
