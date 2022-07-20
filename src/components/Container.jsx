@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Div = styled.div`
-height: 106px;
+height: ${props => props.height ? props.height : 106}px;
 overflow: auto;
 `;
 
