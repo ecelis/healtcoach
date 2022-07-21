@@ -67,8 +67,8 @@ export const DateGrid = styled(CalendarGrid)`
     color: var(--blue-grey-700);
   }
 
-  button:active,
-  button.is-selected {
+  div:active,
+  div.is-selected {
     background-color: var(--teal-100);
     color: var(--teal-900);
   }

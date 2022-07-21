@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { StyledPill } from "./Button";
@@ -6,6 +7,26 @@ import {
   DayOfWeek,
   MonthIndicator
 } from './Grid';
+
+function getFirstOfMonth(year, month) {
+  return (new Date(year, month)).getDay();
+}
+
+function getLastOfMonth(year, month) {
+  return 32 - new Date(year, month, 32).getDate();
+}
+
+function getCurrent() {
+  const date = new Date();
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    day: date.getDate(),
+    first: getFirstOfMonth(date.getFullYear(), date.getMonth()),
+    last: getLastOfMonth(date.getFullYear(), date.getMonth()),
+    date: date.toLocaleDateString()
+  }
+}
 
 const CalendarWrapper = styled.div`
   max-width: max-content;
@@ -17,7 +38,25 @@ const CalendarWrapper = styled.div`
 }
 `;
 
+const Days = function(props) {
+  const a = [];
+  for(let i = props.current.first; i <= props.current.last; i++ ) {
+    a.push(i); 
+  }
+  console.log('aaray', a)
+  return (
+    a.map(item => {
+      return (
+        <div key={item}><time dateTime={`${props.current.year}-${props.current.month}-${item}`}>{item}</time></div>
+      )
+    })
+      
+  )
+}
+
 export default function Calendar() {
+  const [currentDate, setCurrentDate] = useState(getCurrent());
+
   return (
     <div>
       <StyledPill
@@ -26,9 +65,10 @@ export default function Calendar() {
       link={true}>
         <span role="img">{String.fromCodePoint('0x2795')}</span> New Menu
       </StyledPill>
+      <div>{currentDate.date}</div>
       <CalendarWrapper>
         <MonthIndicator>
-          <time datetime="2019-02"> February 2019 </time>
+          <time datetime={`${currentDate.year}-${currentDate.month}`}>{`${currentDate.year} ${currentDate.month}`}</time>
         </MonthIndicator>
         <DayOfWeek>
           <div>Su</div>
@@ -40,10 +80,7 @@ export default function Calendar() {
           <div>Sa</div>
         </DayOfWeek>
         <DateGrid>
-          <div><time dateTime="2019-02-01">1</time></div>
-          <div><time dateTime="2019-02-02">2</time></div>
-          <div><time dateTime="2019-02-03">3</time></div>
-          <div><time dateTime="2019-02-28">28</time></div>
+          <Days current={currentDate} />
         </DateGrid>
       </CalendarWrapper>
     </div>
