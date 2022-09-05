@@ -3,13 +3,7 @@ import { MealType } from "./Meal";
 import axios from 'axios';
 import { axiosOpts, apiUrlBuilder } from "./util";
 import StyledButton from "./Button";
-
-function RecipeOption(props) {
-    const { recipe } = props;    
-    return (
-        <option key={recipe.id} value={recipe.id}>{recipe.title}</option>
-    )
-}
+import {ListRecipes} from './RecipeList';
 
 export default function Menu (props) {
     const [mealTypes, setMealTypes] = useState([]);
@@ -137,14 +131,11 @@ console.log(obj);
                     mealTypes={mealTypes}
                     /></div>
                     <div>
-                        <select id="recipes" name="recipes" size={5}
-                        onChange={selectHandler} multiple>
-                        {
-                        recipes.map(recipe => {
-                            return <RecipeOption key={recipe.id} recipe={recipe} />
-                        })
-                        }
-                        </select>
+                        <ListRecipes recipes={recipes}
+                            controls="menu"
+                            hoverColor={true}
+                            handler={selectHandler}
+                            />
                     </div>
                     <div>
                         <StyledButton text="Save" primary/>

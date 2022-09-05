@@ -6,8 +6,55 @@ import {
 } from './util';
 import StyledContainer from './Container';
 import { MealType } from './Meal';
-import { StyledPill } from './Button';
+import Button, { AddButton, EditButton, StyledPill, TrashButton } from './Button';
 import { Link } from 'react-router-dom';
+import { Col, Grid, Row } from './Grid';
+
+function Controls(props) {
+    let controls = null;
+        if (props.controls === 'edit') {
+            controls = (
+                <React.Fragment>
+                    <Col size={1}>
+                    <EditButton handler={props.handler} />
+                    </Col>
+                    <Col size={1}>
+                        <TrashButton handler={props.handler} />
+                    </Col>
+                </React.Fragment>
+            );
+        } else {
+            controls = (
+            <Col size={1}>
+                <AddButton handler={props.handler} />
+            </Col>);
+        }
+    return controls;
+}
+
+export function ListRecipes(props) {
+    return (
+    <StyledContainer
+    height={600}>
+        <Grid>
+        {
+            props.recipes.map(item => {
+                return (
+                    <Row key={item.id} hoverColor={true}>
+                        <Col size={4} align={"left"} id={item.id}>
+                        {item.title}        
+                        </Col>
+                        <Controls controls={props.controls}
+                        item={item}
+                        handler={props.handler}
+                        />
+                    </Row>
+                )
+            })
+        }
+        </Grid>
+    </StyledContainer>)
+}
 
 export default function RecipeList(props) {
     const [recipes, setRecipes] = useState([]);
@@ -25,7 +72,7 @@ export default function RecipeList(props) {
             .catch(error => error.toString() );
     }, []);
 
-    const selectHandler = (e) => {
+    const selectHandler = (e) => {console.log(e.target.id)
         e.preventDefault();
         const splitUrl = e.target.href.split('/');
         const target = splitUrl[splitUrl.length - 1];
@@ -60,24 +107,15 @@ export default function RecipeList(props) {
                 </div>
                 <div>
                     <StyledPill
-                    onClick={e => { e.preventDefault(); }}
+                    to="/recipe/new"
                     id="addRecipe"
-                    href="/recipe/new">
-                        <Link to="/recipe/new"><span role="img">{String.fromCodePoint('0x2795')}</span> Add Recipe</Link>
+                    link={true}
+                    >
+                        <span role="img">{String.fromCodePoint('0x2795')}</span>New Recipe
                     </StyledPill>
                 </div>
                 <div>
-                    <StyledContainer>
-                        <ul>
-                            {
-                                recipes.map(item => {
-                                    return (
-                                        <li>{item.title}</li>
-                                    )
-                                })
-                            }
-                        </ul>
-                    </StyledContainer>
+                    <ListRecipes recipes={recipes} controls="edit" />
                 </div>
             </form>
         </div>
