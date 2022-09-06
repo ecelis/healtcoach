@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
-import { Grid, Row, Col, Pill } from 'e-react-ui/dist';
+import { Grid, Row, Col } from 'e-react-ui/dist';
 import './App.css';
 import Header from './components/Header';
 import SignIn from './components/Signin';

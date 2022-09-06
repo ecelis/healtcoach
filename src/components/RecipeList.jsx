@@ -6,8 +6,7 @@ import {
 } from './util';
 import StyledContainer from './Container';
 import { MealType } from './Meal';
-import Button, { AddButton, EditButton, StyledPill, TrashButton } from './Button';
-import { Link } from 'react-router-dom';
+import { AddButton, EditButton, StyledPill, TrashButton } from './Button';
 import { Col, Grid, Row } from './Grid';
 
 function Controls(props) {

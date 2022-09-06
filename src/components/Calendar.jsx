@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { StyledPill } from "./Button";
 import {
@@ -55,6 +54,7 @@ const Days = function(props) {
 }
 
 export default function Calendar() {
+  // eslint-disable-next-line
   const [currentDate, setCurrentDate] = useState(getCurrent());
 
   return (

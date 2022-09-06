@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid, Row, Col, Pill } from 'e-react-ui/dist';
 import { StyledLink } from './Link';
 import Navigation, { StyledH1 } from './Navbar';
 
