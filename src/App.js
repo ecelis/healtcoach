@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
+import { Grid, Row, Col, Pill } from 'e-react-ui/dist';
 import './App.css';
 import Header from './components/Header';
 import SignIn from './components/Signin';
@@ -50,14 +51,24 @@ function App() {
   // that breaks Github Actions
 
   return (
-    <div className="container">
-      <Header
-      user={user}
-      setUser={setUser} />
-      <div className='wrapper'>
-        { user ? <Outlet /> : <SignIn /> }
-      </div>
-    </div>
+    <Grid>
+      <Row>
+        <Col size={4}>
+          <Header
+            user={user}
+            setUser={setUser} />
+        </Col>
+      </Row>
+      <Row>
+        <Col size={4}>
+        <div className="container">
+          <div className='wrapper'>
+            { user ? <Outlet /> : <SignIn /> }
+          </div>
+        </div>
+        </Col>
+      </Row>
+    </Grid>
   );
 }
 

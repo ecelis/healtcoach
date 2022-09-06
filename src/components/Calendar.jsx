@@ -68,7 +68,7 @@ export default function Calendar() {
       <div>{currentDate.date}</div>
       <CalendarWrapper>
         <MonthIndicator>
-          <time datetime={`${currentDate.year}-${currentDate.month}`}>{`${currentDate.year} ${currentDate.month}`}</time>
+          <time dateTime={`${currentDate.year}-${currentDate.month}`}>{`${currentDate.year} ${currentDate.month}`}</time>
         </MonthIndicator>
         <DayOfWeek>
           <div>Su</div>
