@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { MealType } from "./Meal";
 import axios from 'axios';
 import { axiosOpts, apiUrlBuilder } from "./util";
-import StyledButton from "./Button";
 import {ListRecipes} from './RecipeList';
+import { Button } from "e-react-ui/dist";
 
 export default function Menu (props) {
     const [mealTypes, setMealTypes] = useState([]);
@@ -138,7 +138,7 @@ console.log(obj);
                             />
                     </div>
                     <div>
-                        <StyledButton text="Save" primary/>
+                        <Button label="Save" primary/>
                         {`${JSON.stringify(menu)}`}
                     </div>
                 </div>

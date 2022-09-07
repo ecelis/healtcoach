@@ -5,9 +5,8 @@ import {
     axiosOpts,
     mealCategories
 } from './util';
-import StyledButton, { StyledPill } from './Button';
 import StyledUl from './Cloud';
-import StyledContainer from './Container';
+import {Button, Container, Pill} from 'e-react-ui/dist';
 import { MealType } from './Meal';
 
 function CategoryOption(props) {
@@ -175,7 +174,7 @@ export default function Recipe(props) {
                         mealCategories.map(category => { // TODO Fix ico size 12px
                             return (
                                 <li key={category.id}>
-                                    <StyledPill itemId={category.id}
+                                    <Pill itemId={category.id}
                                     itemType="category"
                                     onClick={selectHandler}
                                     selected={ recipe.categories.includes(category.id) ? true : false }
@@ -183,7 +182,7 @@ export default function Recipe(props) {
                                         <span role="img">{category.ico}</span>
                                         {' '}
                                         {category.description}
-                            </StyledPill></li>)
+                            </Pill></li>)
                         })
                     }
                     </StyledUl>
@@ -209,23 +208,23 @@ export default function Recipe(props) {
                         }
                     </select>
                     <h3>Ingredients</h3>
-                    <StyledContainer>
+                    <Container>
                     <StyledUl>
                     {
                         ingredients.map(ingredient => {
                             return (
                                 <li key={ingredient.id}>
-                                    <StyledPill itemId={ingredient.id}
+                                    <Pill itemId={ingredient.id}
                                         itemType="ingredient"
                                         onClick={selectHandler}
                                         selected={recipe.ingredients.includes(ingredient.id) ? true : false}
                                         >
                                         {ingredient.description_en}
-                            </StyledPill></li>)
+                            </Pill></li>)
                         })
                     }
                     </StyledUl>
-                    </StyledContainer>
+                    </Container>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions</label>
@@ -244,7 +243,7 @@ export default function Recipe(props) {
                     }}></textarea>
                 </div>
                 <div>
-                    <StyledButton type="button" text="Save" primary />
+                    <Button type="button" label="Save" primary />
                 </div>
             </form>
         </div>

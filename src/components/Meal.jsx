@@ -1,5 +1,5 @@
 import StyledUl from "./Cloud";
-import { StyledPill } from "./Button";
+import { Pill } from "e-react-ui/dist";
 
 function MealTypeOption(props) {
     return (
@@ -28,7 +28,7 @@ export function MealType (props) {
                 return (
                     <li
                         key={mealType['id']}>
-                        <StyledPill itemId={mealType.id}
+                        <Pill id={mealType.id}
                             itemType="mealType"
                             onClick={props.selectHandler}
                             selected={
@@ -38,7 +38,7 @@ export function MealType (props) {
                             <span role="img">{String.fromCodePoint(mealType['ico'])}</span>
                             {' '}
                             {mealType.description_en}
-                        </StyledPill>
+                        </Pill>
                     </li>
                 )
             })
