@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
-import { Grid, Row, Col } from 'e-react-ui/dist';
+import { Grid, Row, Col, Container } from 'e-react-ui/dist';
 import './App.css';
 import Header from './components/Header';
 import SignIn from './components/Signin';
@@ -60,12 +60,10 @@ function App() {
         </Col>
       </Row>
       <Row>
-        <Col size={4}>
-        <div className="container">
-          <div className='wrapper'>
+        <Col size={4} justify="center">
+        <Container id="main" justify="center">
             { user ? <Outlet /> : <SignIn /> }
-          </div>
-        </div>
+        </Container>
         </Col>
       </Row>
     </Grid>

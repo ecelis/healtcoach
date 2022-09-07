@@ -4,10 +4,9 @@ import {
     apiUrlBuilder,
     axiosOpts,
 } from './util';
-import StyledContainer from './Container';
+import {Container,Col, Grid, Row, Pill} from 'e-react-ui/dist';
 import { MealType } from './Meal';
-import { AddButton, EditButton, StyledPill, TrashButton } from './Button';
-import { Col, Grid, Row } from './Grid';
+import { AddButton, EditButton, TrashButton } from './Button';
 
 function Controls(props) {
     let controls = null;
@@ -33,8 +32,7 @@ function Controls(props) {
 
 export function ListRecipes(props) {
     return (
-    <StyledContainer
-    height={600}>
+    <Container>
         <Grid>
         {
             props.recipes.map(item => {
@@ -52,7 +50,7 @@ export function ListRecipes(props) {
             })
         }
         </Grid>
-    </StyledContainer>)
+    </Container>)
 }
 
 export default function RecipeList(props) {
@@ -105,13 +103,13 @@ export default function RecipeList(props) {
                     />
                 </div>
                 <div>
-                    <StyledPill
+                    <Pill
                     to="/recipe/new"
                     id="addRecipe"
                     link={true}
                     >
                         <span role="img">{String.fromCodePoint('0x2795')}</span>New Recipe
-                    </StyledPill>
+                    </Pill>
                 </div>
                 <div>
                     <ListRecipes recipes={recipes} controls="edit" />

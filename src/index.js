@@ -7,24 +7,38 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import Calendar from './components/Calendar';
+import {Calendar} from 'e-react-ui/dist';
 import Menu from './components/Menu';
 import Recipe from './components/Recipe';
 import RecipeList from './components/RecipeList';
 import reportWebVitals from './reportWebVitals';
+import { GlobalStyle } from 'e-react-ui/dist';
+
+const StyleApply = function(props) {
+  return (
+    <React.Fragment>
+      <GlobalStyle />
+      {props.children}
+    </React.Fragment>
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter><Routes>
-      <Route path="/" element={<App />}>
-        <Route path='calendar' element={<Calendar />} />
-        <Route path='menu/new' element={<Menu />} />
-        <Route path="recipe" element={<RecipeList />} />
-        <Route path="recipe/new" element={<Recipe />} />
+      <Route path="/" element={<StyleApply><App /></StyleApply>}>
+        <Route path='calendar'
+          element={<StyleApply><Calendar /></StyleApply>} />
+        <Route path='menu/new'
+          element={<StyleApply><Menu /></StyleApply>} />
+        <Route path="recipe"
+          element={<StyleApply><RecipeList /></StyleApply>} />
+        <Route path="recipe/new"
+          element={<StyleApply><Recipe /></StyleApply>} />
         <Route
-        path="*"
-        element={<Calendar />} />
+          path="*"
+          element={<StyleApply><Calendar /></StyleApply>} />
       </Route>
     </Routes></BrowserRouter>
   </React.StrictMode>
