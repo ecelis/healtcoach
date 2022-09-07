@@ -106,7 +106,6 @@ export default function RecipeList(props) {
                     <Pill
                     to="/recipe/new"
                     id="addRecipe"
-                    link={true}
                     >
                         <span role="img">{String.fromCodePoint('0x2795')}</span>New Recipe
                     </Pill>
