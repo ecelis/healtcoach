@@ -54,6 +54,7 @@ export default function Recipe(props) {
         )
         .then(res => {
             const {data} = res;
+            console.log(data)
             setCategories(data);
         })
         .catch(error => { error.toString();  /* TODO handle errors properly */ });
@@ -76,13 +77,16 @@ export default function Recipe(props) {
         let arr = [];
         let obj;
         const splitUrl = e.target.href.split('/');
+        console.log(splitUrl)
         const target = splitUrl[splitUrl.length - 1];
+        console.log(target)
         const [trigger, id] = target.split(',');
-        console.log(trigger,id) // TODO Remove
+        console.log(trigger,id)
         switch (trigger) {
             case 'category':
                 if (recipe.categories.includes(parseInt(id))) {
                     arr = recipe.categories;
+                    console.log(arr)
                     arr.splice(recipe.categories.indexOf(parseInt(id), 1));
                 } else {
                     arr = [...new Set([...recipe.categories,
@@ -123,7 +127,6 @@ export default function Recipe(props) {
             default:
                 break;
         }
-        console.log(recipe); // TODO Remove
     }
 
     return (
@@ -175,7 +178,7 @@ export default function Recipe(props) {
                             return (
                                 <li key={category.id}>
                                     <Pill itemId={category.id}
-                                    itemType="category"
+                                    to={`category,${category.id}`}
                                     onClick={selectHandler}
                                     selected={ recipe.categories.includes(category.id) ? true : false }
                                     >
@@ -215,7 +218,7 @@ export default function Recipe(props) {
                             return (
                                 <li key={ingredient.id}>
                                     <Pill itemId={ingredient.id}
-                                        itemType="ingredient"
+                                        to={`ingredient,${ingredient.id}`}
                                         onClick={selectHandler}
                                         selected={recipe.ingredients.includes(ingredient.id) ? true : false}
                                         >
@@ -243,7 +246,7 @@ export default function Recipe(props) {
                     }}></textarea>
                 </div>
                 <div>
-                    <Button type="button" label="Save" primary />
+                    <Button type="submit" label="Save" primary />
                 </div>
             </form>
         </div>

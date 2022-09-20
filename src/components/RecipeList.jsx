@@ -74,7 +74,6 @@ export default function RecipeList(props) {
         const splitUrl = e.target.href.split('/');
         const target = splitUrl[splitUrl.length - 1];
         const [trigger, id] = target.split(',');
-        console.log(trigger,id) // TODO Remove
         setSelectedMealType([parseInt(id)]);
         switch (trigger) {
             case 'mealType':

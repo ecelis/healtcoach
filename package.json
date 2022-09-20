@@ -21,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "docker-build": "npm install ; npm run build"
+    "docker-build": "npm install ; npm run build",
+    "deploy": "rsync -av --exclude=node_modules --exclude=config.json --exclude=.env.local ./ opc@club:healthcoach"
   },
   "eslintConfig": {
     "extends": [
