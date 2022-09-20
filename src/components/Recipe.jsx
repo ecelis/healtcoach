@@ -9,24 +9,6 @@ import StyledUl from './Cloud';
 import {Button, Container, Pill} from 'e-react-ui/dist';
 import { MealType } from './Meal';
 
-function CategoryOption(props) {
-    return (
-        <option key={`category${props.categoryId}`}
-            value={props.categoryId}>
-            {props.description_en}
-        </option>
-    );
-}
-
-function IngredientOption(props) {
-    return (
-        <option key={`ingredient${props.ingredientId}`}
-            value={props.ingredientId}>
-            {props.description_en}
-        </option>
-    );
-}
-
 export default function Recipe(props) {
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
