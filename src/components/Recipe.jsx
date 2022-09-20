@@ -73,20 +73,15 @@ export default function Recipe(props) {
 
     const selectHandler = (e) => {
         e.preventDefault();
-        //const payload = {};
         let arr = [];
         let obj;
         const splitUrl = e.target.href.split('/');
-        console.log(splitUrl)
         const target = splitUrl[splitUrl.length - 1];
-        console.log(target)
         const [trigger, id] = target.split(',');
-        console.log(trigger,id)
         switch (trigger) {
             case 'category':
                 if (recipe.categories.includes(parseInt(id))) {
                     arr = recipe.categories;
-                    console.log(arr)
                     arr.splice(recipe.categories.indexOf(parseInt(id), 1));
                 } else {
                     arr = [...new Set([...recipe.categories,
