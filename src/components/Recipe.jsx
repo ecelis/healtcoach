@@ -153,24 +153,6 @@ export default function Recipe(props) {
                     mealTypes={mealTypes}
                  />
                 <div>
-                    <select id="categories"
-                    hidden={true}
-                    multiple={true}
-                    name="categories"
-                    value={recipe.categories}
-                    readOnly
-                    >
-                        {
-                            categories.map(category => {
-                                return (
-                                    <CategoryOption
-                                    key={category.id}
-                                    categoryId={category.id}
-                                    description_en={category.description}
-                                />)
-                            })
-                        }
-                    </select>
                     <h3>Categories</h3>
                     <StyledUl>
                     {
@@ -191,25 +173,6 @@ export default function Recipe(props) {
                     </StyledUl>
                 </div>
                 <div>
-                    <select id="ingredients"
-                    hidden={true}
-                    multiple={true}
-                    name="ingredients"
-                    value={recipe.ingredients}
-                    readOnly
-                    >
-                        {
-                            ingredients.map(ingredient => {
-                                return (
-                                    <IngredientOption
-                                    key={`ingredient${ingredient.id}`}
-                                    ingredientId={ingredient.id}
-                                    value={ingredient.id}
-                                    description_en={ingredient.description_en} />
-                                )
-                            })
-                        }
-                    </select>
                     <h3>Ingredients</h3>
                     <Container>
                     <StyledUl>
